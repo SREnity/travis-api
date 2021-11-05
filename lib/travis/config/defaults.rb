@@ -88,7 +88,7 @@ module Travis
             force_authentication: false,
             yml:                  { url: 'https://yml.travis-ci.org', token: 'secret', auth_key: 'abc123' },
             read_only:            ENV['READ_ONLY'] || false,
-            vcs: {}
+            new_insights:         { url: 'http://insights_api:3000', auth_key: 'auth_keys' }
 
     default :_access => [:key]
 
