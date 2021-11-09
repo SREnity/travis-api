@@ -419,10 +419,15 @@ module Travis::API::V3
       post :create
     end
 
-    resource :insights_user_notifications do
-      route '/insights_user_notifications'
+    resource :insights_notifications do
+      route '/insights_notifications'
       get :all
       patch :toggle_snooze, '/toggle_snooze'
+    end
+
+    resource :insights_plugins do
+      route '/insights_plugins'
+      get :all
     end
   end
 end

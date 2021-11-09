@@ -1,19 +1,15 @@
 module Travis::API::V3
-  class Queries::InsightsUserNotifications < Query
-    params :value, :page, :active, :order, :order_direction, :notification_ids
+  class Queries::InsightsPlugins < Query
+    params :value, :page, :active, :order, :order_direction
 
     def all(user_id)
-      insights_client(user_id).user_notifications(
+      insights_client(user_id).user_plugins(
         params['value'],
         params['page'],
         params['active'],
         params['order'],
         params['order_direction']
       )
-    end
-
-    def toggle_snooze(user_id)
-      insights_client(user_id).toggle_snooze_user_notifications(params['notification_ids'])
     end
 
     private

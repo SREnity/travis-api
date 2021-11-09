@@ -39,6 +39,25 @@ module Travis::API::V3
       end
     end
 
+    def user_plugins(value, page, active, order, order_direction)
+      query_string = query_string_from_params(
+        value: value,
+        page: page || '1',
+        active: active,
+        order: order,
+        order_dir: order_direction
+      )
+      response = connection.get("/user_plugins?#{query_string}")
+
+      handle_errors_and_respond(response) do |body|
+        plugins = body['data'].map do |plugin|
+          Travis::API::V3::Models::Insights::Plugin.new(plugin)
+        end
+
+        Travis::API::V3::Models::Insights::PluginsCollection.new(plugins, body.fetch('last_page'), body.fetch('page').to_i)
+      end
+    end
+
     private
 
     def handle_errors_and_respond(response)

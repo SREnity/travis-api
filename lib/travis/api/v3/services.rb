@@ -29,6 +29,8 @@ module Travis::API::V3
     Executions            = Module.new { extend Services }
     Gdpr                  = Module.new { extend Services }
     Insights              = Module.new { extend Services }
+    InsightsNotifications = Module.new { extend Services }
+    InsightsPlugins       = Module.new { extend Services }
     Installation          = Module.new { extend Services }
     Job                   = Module.new { extend Services }
     Jobs                  = Module.new { extend Services }
@@ -37,7 +39,6 @@ module Travis::API::V3
     Lint                  = Module.new { extend Services }
     Log                   = Module.new { extend Services }
     Messages              = Module.new { extend Services }
-    InsightsUserNotifications = Module.new { extend Services }
     Organization          = Module.new { extend Services }
     Organizations         = Module.new { extend Services }
     Owner                 = Module.new { extend Services }

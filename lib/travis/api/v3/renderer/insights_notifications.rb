@@ -1,5 +1,5 @@
 module Travis::API::V3
-  class Renderer::InsightsUserNotifications < CollectionRenderer
+  class Renderer::InsightsNotifications < CollectionRenderer
     type           :notifications
     collection_key :notifications
 
