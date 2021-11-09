@@ -8,14 +8,14 @@ module Travis::API::V3
       @user_id = user_id
     end
 
-    def user_notifications(page, active, order, order_direction)
-      page ||= '1'
-      query_string = {
-        page: page,
+    def user_notifications(value, page, active, order, order_direction)
+      query_string = query_string_from_params(
+        value: value,
+        page: page || '1',
         active: active,
         order: order,
         order_dir: order_direction
-      }.delete_if { |_, v| v.nil? }.inject('') { |memo, (k, v)| memo += "#{k}=#{URI.encode(v)}" }
+      )
       response = connection.get("/user_notifications?#{query_string}")
 
       handle_errors_and_respond(response) do |body|
@@ -82,6 +82,10 @@ module Travis::API::V3
 
     def insights_auth_key
       Travis.config.new_insights.auth_key || raise(ConfigurationError, 'No insights auth key configured')
+    end
+
+    def query_string_from_params(params)
+      params.delete_if { |_, v| v.nil? || v.empty? }.to_query
     end
   end
 end
