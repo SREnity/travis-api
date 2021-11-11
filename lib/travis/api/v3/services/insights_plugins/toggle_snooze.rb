@@ -4,7 +4,7 @@ module Travis::API::V3
 
     def run!
       raise LoginRequired unless access_control.full_access_or_logged_in?
-      result query(:insights_user_notifications).toggle_snooze(access_control.user.id)
+      result query(:insights_notifications).toggle_snooze(access_control.user.id)
     end
   end
 end
