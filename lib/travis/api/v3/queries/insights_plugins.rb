@@ -1,15 +1,27 @@
 module Travis::API::V3
   class Queries::InsightsPlugins < Query
-    params :value, :page, :active, :order, :order_direction
+    params :filter, :page, :limit, :active, :sort_by, :sort_direction, :key_hash, :name, :plugin_type, :public_id, :private_key, :account_name, :app_key, :domain, :sub_plugin, :ids
 
     def all(user_id)
       insights_client(user_id).user_plugins(
-        params['value'],
+        params['filter'],
         params['page'],
         params['active'],
-        params['order'],
-        params['order_direction']
+        params['sort_by'],
+        params['sort_direction']
       )
+    end
+
+    def create(user_id)
+      insights_client(user_id).create_plugin(params.slice(*%w(key_hash name plugin_type public_id private_key account_name app_key domain sub_plugin)))
+    end
+
+    def toggle_active(user_id)
+      insights_client(user_id).toggle_active_plugins(params['ids'])
+    end
+
+    def delete_many(user_id)
+      insights_client(user_id).delete_many_plugins(params['ids'])
     end
 
     private

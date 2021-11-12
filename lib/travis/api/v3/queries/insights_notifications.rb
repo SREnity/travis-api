@@ -1,14 +1,14 @@
 module Travis::API::V3
   class Queries::InsightsNotifications < Query
-    params :value, :page, :active, :order, :order_direction, :notification_ids
+    params :filter, :page, :limit, :active, :sort_by, :sort_direction
 
     def all(user_id)
       insights_client(user_id).user_notifications(
-        params['value'],
+        params['filter'],
         params['page'],
         params['active'],
-        params['order'],
-        params['order_direction']
+        params['sort_by'],
+        params['sort_direction']
       )
     end
 

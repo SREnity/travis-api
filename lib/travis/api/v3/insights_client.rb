@@ -8,53 +8,70 @@ module Travis::API::V3
       @user_id = user_id
     end
 
-    def user_notifications(value, page, active, order, order_direction)
+    def user_notifications(filter, page, active, sort_by, sort_direction)
       query_string = query_string_from_params(
-        value: value,
+        value: filter,
         page: page || '1',
         active: active,
-        order: order,
-        order_dir: order_direction
+        order: sort_by,
+        order_dir: sort_direction
       )
       response = connection.get("/user_notifications?#{query_string}")
 
       handle_errors_and_respond(response) do |body|
         notifications = body['data'].map do |notification|
-          Travis::API::V3::Models::Insights::Notification.new(notification)
+          Travis::API::V3::Models::InsightsNotification.new(notification)
         end
 
-        Travis::API::V3::Models::Insights::NotificationsCollection.new(notifications, body.fetch('last_page'), body.fetch('page').to_i)
+        Travis::API::V3::Models::InsightsCollection.new(notifications, body.fetch('total_count'))
       end
     end
 
     def toggle_snooze_user_notifications(notification_ids)
       response = connection.put('/user_notifications/toggle_snooze', snooze_ids: notification_ids)
 
-      handle_errors_and_respond(response) do |body|
-        notifications = body.map do |notification|
-          Travis::API::V3::Models::Insights::Notification.new(notification)
-        end
-
-        Travis::API::V3::Models::Insights::NotificationsCollection.new(notifications, 0, 0)
-      end
+      handle_errors_and_respond(response)
     end
 
-    def user_plugins(value, page, active, order, order_direction)
+    def user_plugins(filter, page, active, sort_by, sort_direction)
       query_string = query_string_from_params(
-        value: value,
+        value: filter,
         page: page || '1',
         active: active,
-        order: order,
-        order_dir: order_direction
+        order: sort_by,
+        order_dir: sort_direction
       )
       response = connection.get("/user_plugins?#{query_string}")
 
       handle_errors_and_respond(response) do |body|
         plugins = body['data'].map do |plugin|
-          Travis::API::V3::Models::Insights::Plugin.new(plugin)
+          Travis::API::V3::Models::InsightsPlugin.new(plugin)
         end
 
-        Travis::API::V3::Models::Insights::PluginsCollection.new(plugins, body.fetch('last_page'), body.fetch('page').to_i)
+        Travis::API::V3::Models::InsightsCollection.new(plugins, body.fetch('total_count'))
+      end
+    end
+
+    def create_plugin(params)
+      response = connection.post("/user_plugins", user_plugin: params)
+      handle_errors_and_respond(response) do |body|
+        Travis::API::V3::Models::InsightsPlugin.new(body['plugin'])
+      end
+    end
+
+    def toggle_active_plugins(plugin_ids)
+      response = connection.put('/user_plugins/toggle_active', toggle_ids: plugin_ids)
+
+      handle_errors_and_respond(response) do |body|
+        Travis::API::V3::Models::InsightsCollection.new([], 0)
+      end
+    end
+
+    def delete_many_plugins(plugin_ids)
+      response = connection.delete('/user_plugins/delete_many', delete_ids: plugin_ids)
+
+      handle_errors_and_respond(response) do |body|
+        Travis::API::V3::Models::InsightsCollection.new([], 0)
       end
     end
 

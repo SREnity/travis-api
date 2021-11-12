@@ -428,6 +428,9 @@ module Travis::API::V3
     resource :insights_plugins do
       route '/insights_plugins'
       get :all
+      post :create
+      patch :toggle_active, '/toggle_active'
+      delete :delete_many, '/delete_many'
     end
   end
 end
