@@ -8,7 +8,6 @@ $stdout.sync = true
 
 require 'travis/api/app'
 require 'core_ext/module/load_constants'
-require 'rack/cors'
 
 models = Travis::Model.constants.map(&:to_s)
 only   = [/^(ActiveRecord|ActiveModel|Travis|GH|#{models.join('|')})/]
@@ -16,13 +15,6 @@ skip   = ['Travis::Memory', 'GH::ResponseWrapper', 'Travis::Helpers::Legacy', 'G
 
 [Travis::Api, Travis, GH].each do |target|
   target.load_constants! :only => only, :skip => skip, :debug => false
-end
-
-use Rack::Cors do
-  allow do
-    origins '*'
-    resource '*', headers: :any, methods: [:get, :post, :patch, :put, :delete]
-  end
 end
 
 run Travis::Api::App.new
