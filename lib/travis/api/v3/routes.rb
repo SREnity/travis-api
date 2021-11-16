@@ -428,9 +428,16 @@ module Travis::API::V3
     resource :insights_plugins do
       route '/insights_plugins'
       get :all
+      get :generate_key, '/generate_key'
       post :create
+      post :authenticate_key, '/authenticate_key'
       patch :toggle_active, '/toggle_active'
       delete :delete_many, '/delete_many'
+    end
+
+    resource :insights_public_key do
+      route '/insights_public_key'
+      get :latest
     end
   end
 end

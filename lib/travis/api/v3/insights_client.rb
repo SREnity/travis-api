@@ -75,6 +75,30 @@ module Travis::API::V3
       end
     end
 
+    def generate_key(plugin_name, plugin_type)
+      response = connection.get('/user_plugins/generate_key', name: plugin_name, plugin_type: plugin_type)
+
+      handle_errors_and_respond(response) do |body|
+        body
+      end
+    end
+
+    def authenticate_key(params)
+      response = connection.post('/user_plugins/authenticate_key', params)
+
+      handle_errors_and_respond(response) do |body|
+        body
+      end
+    end
+
+    def public_key
+      response = connection.get('/api/v1/public_keys/latest.json')
+
+      handle_errors_and_respond(response) do |body|
+        Travis::API::V3::Models::InsightsPublicKey.new(body)
+      end
+    end
+
     private
 
     def handle_errors_and_respond(response)
