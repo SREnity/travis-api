@@ -32,6 +32,10 @@ module Travis::API::V3
       insights_client(user_id).authenticate_key(params)
     end
 
+    def template_plugin_tests(user_id)
+      insights_client(user_id).template_plugin_tests(params['plugin_type'])
+    end
+
     private
 
     def insights_client(user_id)

@@ -91,6 +91,56 @@ module Travis::API::V3
       end
     end
 
+    def template_plugin_tests(plugin_type)
+      response = connection.get("/user_plugins/#{plugin_type}/template_plugin_tests")
+
+      handle_errors_and_respond(response) do |body|
+        body
+      end
+    end
+
+    def probes(filter, page, active, sort_by, sort_direction)
+      query_string = query_string_from_params(
+        value: filter,
+        page: page || '1',
+        active: active,
+        order: sort_by,
+        order_dir: sort_direction
+      )
+      response = connection.get("/probes?#{query_string}")
+
+      handle_errors_and_respond(response) do |body|
+        probes = body['data'].map do |probe|
+          Travis::API::V3::Models::InsightsProbe.new(probe)
+        end
+
+        Travis::API::V3::Models::InsightsCollection.new(probes, body.fetch('total_count'))
+      end
+    end
+
+    def create_probe(params)
+      response = connection.post("/probes", test_template: params)
+      handle_errors_and_respond(response) do |body|
+        Travis::API::V3::Models::InsightsProbe.new(body)
+      end
+    end
+
+    def toggle_active_probes(probe_ids)
+      response = connection.put('/probes/toggle_active', toggle_ids: probe_ids)
+
+      handle_errors_and_respond(response) do |body|
+        Travis::API::V3::Models::InsightsCollection.new([], 0)
+      end
+    end
+
+    def delete_many_probes(probe_ids)
+      response = connection.delete('/probes/delete_many', delete_ids: probe_ids)
+
+      handle_errors_and_respond(response) do |body|
+        Travis::API::V3::Models::InsightsCollection.new([], 0)
+      end
+    end
+
     def public_key
       response = connection.get('/api/v1/public_keys/latest.json')
 

@@ -433,6 +433,15 @@ module Travis::API::V3
       post :authenticate_key, '/authenticate_key'
       patch :toggle_active, '/toggle_active'
       delete :delete_many, '/delete_many'
+      get :template_plugin_tests, '/template_plugin_tests'
+    end
+
+    resource :insights_probes do
+      route '/insights_probes'
+      get :all
+      post :create
+      patch :toggle_active, '/toggle_active'
+      delete :delete_many, '/delete_many'
     end
 
     resource :insights_public_key do
