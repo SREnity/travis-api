@@ -30,9 +30,13 @@ module Travis::API::V3
     Gdpr                  = Module.new { extend Services }
     Insights              = Module.new { extend Services }
     InsightsNotifications = Module.new { extend Services }
+    InsightsPlugin        = Module.new { extend Services }
     InsightsPlugins       = Module.new { extend Services }
+    InsightsProbe         = Module.new { extend Services }
     InsightsProbes        = Module.new { extend Services }
     InsightsPublicKey     = Module.new { extend Services }
+    InsightsSandbox       = Module.new { extend Services }
+    InsightsTags          = Module.new { extend Services }
     Installation          = Module.new { extend Services }
     Job                   = Module.new { extend Services }
     Jobs                  = Module.new { extend Services }

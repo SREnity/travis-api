@@ -5,7 +5,7 @@ module Travis::API::V3
       :security_architecture_weight, :security_maintenance_weight, :security_support_weight,
       :cost_architecture_weight, :cost_maintenance_weight, :cost_support_weight,
       :delivery_architecture_weight, :delivery_maintenance_weight, :delivery_support_weight,
-      :notification, :description, :description_link, :type, :labels
+      :notification, :description, :description_link, :type, :labels, :tag_list
 
     def all(user_id)
       insights_client(user_id).probes(
@@ -19,6 +19,10 @@ module Travis::API::V3
 
     def create(user_id)
       insights_client(user_id).create_probe(params)
+    end
+
+    def update(user_id)
+      insights_client(user_id).update_probe(params)
     end
 
     def toggle_active(user_id)

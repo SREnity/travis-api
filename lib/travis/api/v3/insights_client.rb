@@ -99,6 +99,14 @@ module Travis::API::V3
       end
     end
 
+    def get_scan_logs(plugin_id)
+      response = connection.get("/user_plugins/#{plugin_id}/get_scan_logs")
+
+      handle_errors_and_respond(response) do |body|
+        body
+      end
+    end
+
     def probes(filter, page, active, sort_by, sort_direction)
       query_string = query_string_from_params(
         value: filter,
@@ -125,6 +133,13 @@ module Travis::API::V3
       end
     end
 
+    def update_probe(params)
+      response = connection.patch("/probes/#{params['probe_id']}", params)
+      handle_errors_and_respond(response) do |body|
+        Travis::API::V3::Models::InsightsProbe.new(body)
+      end
+    end
+
     def toggle_active_probes(probe_ids)
       response = connection.put('/probes/toggle_active', toggle_ids: probe_ids)
 
@@ -141,11 +156,45 @@ module Travis::API::V3
       end
     end
 
+    def sandbox_plugins(plugin_type)
+      response = connection.post('/sandbox/plugins', plugin_type: plugin_type)
+
+      handle_errors_and_respond(response) do |body|
+        body
+      end
+    end
+
+    def sandbox_plugin_data(plugin_id)
+      response = connection.post('/sandbox/plugin_data', plugin_id: plugin_id)
+
+      handle_errors_and_respond(response) do |body|
+        body
+      end
+    end
+
+    def sandbox_run_query(plugin_id, query)
+      response = connection.post('/sandbox/run_query', plugin_id: plugin_id, query: query)
+
+      handle_errors_and_respond(response) do |body|
+        body
+      end
+    end
+
     def public_key
       response = connection.get('/api/v1/public_keys/latest.json')
 
       handle_errors_and_respond(response) do |body|
         Travis::API::V3::Models::InsightsPublicKey.new(body)
+      end
+    end
+
+    def search_tags
+      response = connection.get('/tags')
+
+      handle_errors_and_respond(response) do |body|
+        tags = body.map do |tag|
+          Travis::API::V3::Models::InsightsTag.new(tag)
+        end
       end
     end
 

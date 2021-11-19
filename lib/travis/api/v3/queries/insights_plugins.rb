@@ -1,6 +1,6 @@
 module Travis::API::V3
   class Queries::InsightsPlugins < Query
-    params :filter, :page, :limit, :active, :sort_by, :sort_direction, :key_hash, :name, :plugin_type, :public_id, :private_key, :account_name, :app_key, :domain, :sub_plugin, :ids
+    params :filter, :page, :limit, :active, :sort_by, :sort_direction, :key_hash, :plugin_id, :name, :plugin_type, :public_id, :private_key, :account_name, :app_key, :domain, :sub_plugin, :ids
 
     def all(user_id)
       insights_client(user_id).user_plugins(
@@ -34,6 +34,10 @@ module Travis::API::V3
 
     def template_plugin_tests(user_id)
       insights_client(user_id).template_plugin_tests(params['plugin_type'])
+    end
+
+    def get_scan_logs(user_id)
+      insights_client(user_id).get_scan_logs(params['plugin_id'])
     end
 
     private
