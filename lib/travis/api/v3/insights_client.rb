@@ -99,8 +99,9 @@ module Travis::API::V3
       end
     end
 
-    def get_scan_logs(plugin_id)
-      response = connection.get("/user_plugins/#{plugin_id}/get_scan_logs")
+    def get_scan_logs(plugin_id, last_id)
+      params = last_id ? { last: last_id, poll: true } : {}
+      response = connection.get("/user_plugins/#{plugin_id}/get_scan_logs", params)
 
       handle_errors_and_respond(response) do |body|
         body
@@ -209,13 +210,13 @@ module Travis::API::V3
       when 204
         true
       when 400
-        raise Travis::API::V3::ClientError, response.body['error']
+        raise Travis::API::V3::ClientError, response.body.fetch('error', '')
       when 403
         raise Travis::API::V3::InsufficientAccess, response.body['rejection_code']
       when 404
-        raise Travis::API::V3::NotFound, response.body['error']
+        raise Travis::API::V3::NotFound, response.body.fetch('error', '')
       when 422
-        raise Travis::API::V3::UnprocessableEntity, response.body['error']
+        raise Travis::API::V3::UnprocessableEntity, response.body.fetch('error', '')
       else
         raise Travis::API::V3::ServerError, 'Insights API failed'
       end

@@ -1,6 +1,6 @@
 module Travis::API::V3
   class Services::InsightsPlugin::GetScanLogs < Service
-    params :plugin_id
+    params :plugin_id, :last_id
     result_type :insights_plugin_scan_logs
 
     def run!

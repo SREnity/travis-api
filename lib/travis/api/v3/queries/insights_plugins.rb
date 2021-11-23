@@ -37,7 +37,7 @@ module Travis::API::V3
     end
 
     def get_scan_logs(user_id)
-      insights_client(user_id).get_scan_logs(params['plugin_id'])
+      insights_client(user_id).get_scan_logs(params['plugin_id'], params['last_id'])
     end
 
     private
