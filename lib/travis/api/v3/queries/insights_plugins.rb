@@ -1,6 +1,7 @@
 module Travis::API::V3
   class Queries::InsightsPlugins < Query
-    params :filter, :page, :limit, :active, :sort_by, :sort_direction, :key_hash, :plugin_id, :name, :plugin_type, :public_id, :private_key, :account_name, :app_key, :domain, :sub_plugin, :ids
+    params :filter, :page, :limit, :active, :sort_by, :sort_direction, :key_hash, :plugin_id, :name, :plugin_type, :public_id,
+      :private_key, :account_name, :app_key, :domain, :sub_plugin, :ids
 
     def all(user_id)
       insights_client(user_id).user_plugins(

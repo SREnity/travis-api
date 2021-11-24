@@ -21,7 +21,7 @@ module Travis::API::V3
     attribute :insights_date_format, String, default: 'DD/MM/YYYY'
     validates :insights_date_format, inclusion: { in: %w{DD/MM/YYYY MM/DD/YYYY YYYY/MM/DD}, message: "'%{value}' is not allowed" }
 
-    attribute :insights_time_format, String, default: 'hh:mm:ss'
-    validates :insights_time_format, inclusion: { in: ['h:mm:ss A', 'hh:mm:ss'], message: "'%{value}' is not allowed" }
+    attribute :insights_time_format, String, default: 'HH:mm:ss'
+    validates :insights_time_format, inclusion: { in: ['h:mm:ss A', 'HH:mm:ss'], message: "'%{value}' is not allowed" }
   end
 end
