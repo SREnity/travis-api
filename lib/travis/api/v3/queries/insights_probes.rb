@@ -2,9 +2,6 @@ module Travis::API::V3
   class Queries::InsightsProbes < Query
     params :filter, :page, :limit, :active, :sort_by, :sort_direction, :ids,
       :test_template_id, :test, :plugin_type,
-      :security_architecture_weight, :security_maintenance_weight, :security_support_weight,
-      :cost_architecture_weight, :cost_maintenance_weight, :cost_support_weight,
-      :delivery_architecture_weight, :delivery_maintenance_weight, :delivery_support_weight,
       :notification, :description, :description_link, :type, :labels, :tag_list
 
     def all(user_id)

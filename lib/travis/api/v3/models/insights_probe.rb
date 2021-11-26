@@ -2,10 +2,8 @@ module Travis::API::V3
   class Models::InsightsProbe
     attr_reader :id, :user_id, :user_plugin_id, :test_template_id, :uuid, :uuid_group, :type,
       :notification, :description, :description_link, :test, :base_object_locator, :preconditions, :conditionals,
-      :object_key_locator, :security_architecture_weight, :cost_architecture_weight, :delivery_architecture_weight,
-      :security_maintenance_weight, :cost_maintenance_weight, :delivery_maintenance_weight,
-      :security_support_weight, :cost_support_weight, :delivery_support_weight,
-      :active, :editable, :template_type, :cruncher_type, :status, :labels, :plugin_type, :plugin_type_name, :plugin_category, :tag_list
+      :object_key_locator, :active, :editable, :template_type, :cruncher_type, :status, :labels, :plugin_type,
+      :plugin_type_name, :plugin_category, :tag_list, :severity
 
     def initialize(attributes = {})
       @id = attributes.fetch('id')
@@ -23,15 +21,6 @@ module Travis::API::V3
       @preconditions = attributes.fetch('preconditions')
       @conditionals = attributes.fetch('conditionals')
       @object_key_locator = attributes.fetch('object_key_locator')
-      @security_architecture_weight = attributes.fetch('security_architecture_weight')
-      @cost_architecture_weight = attributes.fetch('cost_architecture_weight')
-      @delivery_architecture_weight = attributes.fetch('delivery_architecture_weight')
-      @security_maintenance_weight = attributes.fetch('security_maintenance_weight')
-      @cost_maintenance_weight = attributes.fetch('cost_maintenance_weight')
-      @delivery_maintenance_weight = attributes.fetch('delivery_maintenance_weight')
-      @security_support_weight = attributes.fetch('security_support_weight')
-      @cost_support_weight = attributes.fetch('cost_support_weight')
-      @delivery_support_weight = attributes.fetch('delivery_support_weight')
       @active = attributes.fetch('active')
       @editable = attributes.fetch('editable')
       @template_type = attributes.fetch('template_type')
@@ -42,6 +31,7 @@ module Travis::API::V3
       @plugin_type_name = attributes.fetch('plugin_type_name')
       @plugin_category = attributes.fetch('plugin_category')
       @tag_list = attributes.fetch('tag_list')
+      @severity = attributes.fetch('severity')
     end
   end
 end
