@@ -12,11 +12,17 @@ module Travis::API::V3
     end
 
     def limit(*)
-      @collection
+      self
     end
 
     def offset(*)
-      @collection
+      self
+    end
+
+    def map
+      return @collection.map unless block_given?
+  
+      @collection.map { |x| yield x }
     end
   end
 end
